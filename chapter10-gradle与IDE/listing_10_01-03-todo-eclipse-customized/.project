@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>todo</name>
+	<comment>A task management application</comment>
+	<projects>
+		<project>model</project>
+		<project>repository</project>
+		<project>web</project>
+	</projects>
+	<natures/>
+	<buildSpec/>
+	<linkedResources/>
+	<filteredResources/>
+</projectDescription>

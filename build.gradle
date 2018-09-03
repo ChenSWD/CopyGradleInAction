@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+    }
+}
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+/**project.ext*/
+ext {
+    chen = 444
+}
+/**断言*/
+assert project.exampleProp == 'myValue'
+/**project 属性*/
+task printProp() {
+    println("second prop : " + project.someOtherProp)
+    println("second prop : " + project.ext.chen)
+    println("second prop : " + project.getGradle())
+}
+/**版本定义*/
+version = '0.1-release'
+task printVersion() {
+    doFirst {
+        /**logger 输出*/
+        logger.quiet("Version quiet: " + project.version)
+        println("Version0:" + project.version)
+    }
+    doLast {
+        println "Version1:$version"
+    }
+}
+/**Action按顺序执行，即先定义的doFirst在后定义的doFirst之前被执行。*/
+printVersion.doFirst { println "first action" }
+printVersion.doFirst { println "first1 action" }
+printVersion.doLast { println "last action" }
+printVersion.doLast { println "last1 action" }
+
+/**task 依赖*/
+task first << { println("first") }
+task second << { println("second") }
+task printVersion1(dependsOn: [second, first]) {
+    doLast {
+        logger.quiet("Version quiet: " + project.version)
+    }
+}
+task third << { println("third") }
+third.dependsOn('printVersion1')
+
+/**没有action的task是配置,在有action的task之前执行*/
+task loadVersion {
+    project.version = '1.0-release'
+}

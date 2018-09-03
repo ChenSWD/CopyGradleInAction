@@ -1,0 +1,34 @@
+allprojects {
+    apply plugin: 'eclipse'
+    group = 'com.manning.gia'
+    version = '0.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    eclipse {
+        /**编译器和源代码兼容版本*/
+        jdt {
+            sourceCompatibility = 1.6
+            targetCompatibility = 1.6
+        }
+        /**外部依赖的代码和Javadoc是否下载到本项目中*/
+        classpath {
+            downloadSources = true
+            downloadJavadoc = false
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.7'
+}
+
+eclipse {
+    project {
+        name = 'todo'
+        comment = 'A task management application'
+        referencedProjects 'model', 'repository', 'web'
+    }
+}

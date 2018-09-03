@@ -1,0 +1,24 @@
+allprojects {
+    apply plugin: 'idea'
+    group = 'com.manning.gia'
+    version = '0.1'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    idea {
+        module {
+            /**外部依赖的代码和Javadoc是否下载到本项目中*/
+            downloadSources = true
+            downloadJavadoc = false
+        }
+    }
+}
+
+idea {
+    project {
+        jdkName = '1.7'
+        languageLevel = '1.7'
+    }
+}
