@@ -1,12 +1,20 @@
 apply plugin: 'java'
+/**定义项目的版本*/
 version = 0.1
 /**jdk版本*/
 sourceCompatibility = JavaVersion.VERSION_1_7
-/**设置项目的源码目录是src*/
+
 sourceSets {
     main {
         java {
+            /**设置项目的源码目录是src*/
             srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            /**设置项目的测试代码目录是test*/
+            srcDirs = ['test']
         }
     }
 }

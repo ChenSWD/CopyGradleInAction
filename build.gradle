@@ -24,9 +24,11 @@ ext {
 assert project.exampleProp == 'myValue'
 /**project 属性*/
 task printProp() {
-    println("second prop : " + project.someOtherProp)
-    println("second prop : " + project.ext.chen)
-    println("second prop : " + project.getGradle())
+    doLast {
+        println("second prop : " + project.someOtherProp)
+        println("second prop : " + project.ext.chen)
+        println("second prop : " + project.getGradle())
+    }
 }
 /**版本定义*/
 version = '0.1-release'

@@ -1,9 +1,10 @@
 apply plugin: 'java'
-/**配置对maven仓库的依赖，下载依赖源码的中心仓库*/
+/**配置对maven仓库的依赖，下载依赖源码的中心仓库  */
 repositories {
     mavenCentral()
 }
-/**添加要依赖的库*/
+/**添加要依赖的库，现在一般使用implementation(compile被废弃)*/
 dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+    implementation 'junit:junit:4.12'
 }

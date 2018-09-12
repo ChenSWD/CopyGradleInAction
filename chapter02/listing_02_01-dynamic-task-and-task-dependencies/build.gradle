@@ -1,17 +1,24 @@
-task startSession << {
-    chant()
-}
-
-def chant() {
-    ant.echo 'Repeat after me...'
-}
-
-3.times { counter ->
-    task "yayGradle$counter" << {
-        println 'Gradle rocks'
+task startSession {
+    doLast {
+        chant()
     }
 }
 
+def chant() {
+    /**每个脚本都带有一个ant属性，它赋予了直接访问ant任务的能力*/
+    ant.echo 'Repeat after me...'
+}
+/**这是一个动态的task，可以在运行的时候指定它的名字。
+ * 该方法是Groovy在java.lang.Number中扩展的times方法，
+ * 创建3个新的task，隐含变量it(counter)指定循环的次数，这里使用计数器来创建task的名字.*/
+3.times { counter ->
+    task "yayGradle$counter" {
+        doLast {
+            println 'Gradle rocks'
+        }
+    }
+}
+/**dependsOn说明了task之间的依赖，gradle确保被依赖的task总是在其之前执行。*/
 yayGradle0.dependsOn startSession
 yayGradle2.dependsOn yayGradle1, yayGradle0
 task groupTherapy(dependsOn: yayGradle2)
