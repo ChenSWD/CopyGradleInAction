@@ -1,8 +1,8 @@
 apply plugin: 'java'
-
 version = 0.1
-sourceCompatibility = 1.6
-
+/**jdk版本*/
+sourceCompatibility = JavaVersion.VERSION_1_7
+/**设置项目的源码目录是src*/
 sourceSets {
     main {
         java {
@@ -10,9 +10,9 @@ sourceSets {
         }
     }
 }
-
+/**修改build生成目录，默认是build目录*/
 buildDir = 'out'
-
+/**设置主类，设置了该属性生成的JAR文件才能被执行*/
 jar {
     manifest {
         attributes 'Main-Class': 'com.manning.gia.todo.ToDoApp'
