@@ -1,0 +1,10 @@
+project.ext.myProp = 'myValue'
+
+ext {
+    someOtherProp = 123
+}
+/**断言 如果判断为false，则构建会失败，使用ext命名空间访问属性是可选的*/
+assert myProp == 'myValue1'
+println project.someOtherProp
+ext.someOtherProp = 567
+

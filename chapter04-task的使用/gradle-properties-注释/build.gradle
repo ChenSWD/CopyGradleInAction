@@ -1,5 +1,5 @@
 assert project.exampleProp == 'myValue'
-
+/**直接引用gradle.properties文件中定义的属性  $someOtherProp */
 task printGradleProperty << {
     println "Second property: $someOtherProp"
 }
