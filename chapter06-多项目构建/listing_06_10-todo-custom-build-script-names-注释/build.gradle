@@ -1,0 +1,9 @@
+/**为所有项目(包括根项目和所有子项目)设置group和version属性*/
+allprojects {
+    group = 'com.manning.gia'
+    version = '0.1'
+}
+/**所有子项目应用Java插件*/
+subprojects {
+    apply plugin: 'java'
+}

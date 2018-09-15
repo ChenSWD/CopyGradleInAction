@@ -2,9 +2,10 @@ include 'todo-model', 'todo-repository', 'todo-web'
 
 rootProject.name = 'todo'
 
-/**更改构建文件，将build.gradle 更换成更有意义的命名,如model.gradle
- * it.name 是子项目名*/
+/**更改构建文件，将build.gradle 更换成更有意义的命名,如 model.gradle
+ * it.name 是子项目名：todo-model todo-repository todo-web*/
 rootProject.children.each {
     println(rootDir.getPath() + " " + it.name)
+    /**设置构建脚本文件名*/
     it.buildFileName = it.name + '.gradle' - 'todo-'
 }

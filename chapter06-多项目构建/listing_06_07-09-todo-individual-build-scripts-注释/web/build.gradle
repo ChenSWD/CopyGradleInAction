@@ -1,11 +1,10 @@
+/**应用war插件*/
 apply plugin: 'war'
-
+/**声明中心仓库*/
 repositories {
     mavenCentral()
 }
-
 dependencies {
+    /**定义依赖了repository子项目*/
     compile project(':repository')
-    providedCompile 'javax.servlet:servlet-api:2.5'
-    runtime 'javax.servlet:jstl:1.1.2'
 }
