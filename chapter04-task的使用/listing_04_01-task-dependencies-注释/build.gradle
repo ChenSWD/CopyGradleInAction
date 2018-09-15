@@ -1,0 +1,24 @@
+version = '0.1-SNAPSHOT'
+task first {
+    doLast {
+        println "first"
+    }
+}
+task second {
+    doLast {
+        println "second"
+    }
+}
+/**指定多个task依赖*/
+task printVersion(dependsOn: [second, first]) {
+    doLast {
+        println "Version: $version"
+    }
+}
+task third {
+    doLast {
+        println "third"
+    }
+}
+/**dependsOn 添加任务之间的依赖，声明依赖时直接按名称引用task，被依赖的任务要先被执行*/
+third.dependsOn('printVersion')     

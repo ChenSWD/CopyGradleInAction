@@ -1,0 +1,12 @@
+task first {
+    doLast {
+        println "first"
+    }
+}
+task second {
+    doLast {
+        println "second"
+    }
+}
+/**first 被 second终结*/
+first.finalizedBy second

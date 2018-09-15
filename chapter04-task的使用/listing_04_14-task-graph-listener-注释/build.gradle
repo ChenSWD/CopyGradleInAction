@@ -1,0 +1,75 @@
+apply plugin: 'war'
+ext.versionFile = file('version.properties')
+
+task loadVersion {
+    project.version = readVersion()
+}
+
+ProjectVersion readVersion() {
+    logger.quiet 'Reading the version file.'
+
+    if (!versionFile.exists()) {
+        throw new GradleException("Required version file does not exit: $versionFile.canonicalPath")
+    }
+
+    Properties versionProps = new Properties()
+
+    versionFile.withInputStream { stream ->
+        versionProps.load(stream)
+    }
+
+    new ProjectVersion(versionProps.major.toInteger(), versionProps.minor.toInteger(), versionProps.release.toBoolean())
+}
+/**自定义一个监听器*/
+class ReleaseVersionListener implements TaskExecutionGraphListener {
+    final static String releaseTaskPath = ':release'
+
+    @Override
+    void graphPopulated(TaskExecutionGraph taskGraph) {
+        println("tasks : " + taskGraph.allTasks)
+        /**判断执行的tasks 是不是包含 release task，只有执行的是release task的时候才会执行下面的操作*/
+        if (taskGraph.hasTask(releaseTaskPath)) {
+            List<Task> allTasks = taskGraph.allTasks
+            /**从执行图中的一系列task过滤release task*/
+            Task releaseTask = allTasks.find { it.path == releaseTaskPath }
+            /**通过task拿到project，每一个task都知道所属的project*/
+            Project project = releaseTask.project
+            if (!project.version.release) {
+                project.version.release = true
+                project.ant.propertyfile(file: project.versionFile) {
+                    entry(key: 'release', type: 'string', operation: '=', value: 'true')
+                }
+            }
+        }
+    }
+}
+/**添加一个task执行图的监听器*/
+gradle.taskGraph.addTaskExecutionGraphListener(new ReleaseVersionListener())
+
+task release {
+    doLast {
+        println 'Releasing the project...'
+    }
+}
+
+class ProjectVersion {
+    Integer major
+    Integer minor
+    Boolean release
+
+    ProjectVersion(Integer major, Integer minor) {
+        this.major = major
+        this.minor = minor
+        this.release = Boolean.FALSE
+    }
+
+    ProjectVersion(Integer major, Integer minor, Boolean release) {
+        this(major, minor)
+        this.release = release
+    }
+
+    @Override
+    String toString() {
+        "$major.$minor${release ? '' : '-SNAPSHOT'}"
+    }
+}

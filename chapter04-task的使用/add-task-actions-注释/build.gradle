@@ -1,0 +1,14 @@
+version = '0.1-SNAPSHOT'
+task printVersion {
+    doFirst {
+        println "Before reading the project version"
+    }
+    doLast {
+        println "Version: $version"
+    }
+}
+/**先添加的doFirst动作后执行，先添加的doLast动作先执行*/
+printVersion.doFirst { println "Second action" }
+printVersion.doFirst { println "First action" }
+printVersion.doLast { println "Not Last action" }
+printVersion.doLast { println "Last action" }

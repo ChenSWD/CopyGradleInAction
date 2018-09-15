@@ -49,25 +49,29 @@ task release(dependsOn: backupReleaseDistribution) << {
     logger.quiet 'Releasing the project...'
 }
 
-task incrementMajorVersion(group: 'versioning', description: 'Increments project major version.') << {
-    String currentVersion = version.toString()
-    ++version.major
-    String newVersion = version.toString()
-    logger.info "Incrementing major project version: $currentVersion -> $newVersion"
+task incrementMajorVersion(group: 'versioning', description: 'Increments project major version.') {
+    doLast {
+        String currentVersion = version.toString()
+        ++version.major
+        String newVersion = version.toString()
+        logger.info "Incrementing major project version: $currentVersion -> $newVersion"
 
-    ant.propertyfile(file: versionFile) {
-        entry(key: 'major', type: 'int', operation: '+', value: 1)
+        ant.propertyfile(file: versionFile) {
+            entry(key: 'major', type: 'int', operation: '+', value: 1)
+        }
     }
 }
 
-task incrementMinorVersion(group: 'versioning', description: 'Increments project minor version.') << {
-    String currentVersion = version.toString()
-    ++version.minor
-    String newVersion = version.toString()
-    logger.info "Incrementing minor project version: $currentVersion -> $newVersion"
+task incrementMinorVersion(group: 'versioning', description: 'Increments project minor version.') {
+    doLast {
+        String currentVersion = version.toString()
+        ++version.minor
+        String newVersion = version.toString()
+        logger.info "Incrementing minor project version: $currentVersion -> $newVersion"
 
-    ant.propertyfile(file: versionFile) {
-        entry(key: 'minor', type: 'int', operation: '+', value: 1)
+        ant.propertyfile(file: versionFile) {
+            entry(key: 'minor', type: 'int', operation: '+', value: 1)
+        }
     }
 }
 

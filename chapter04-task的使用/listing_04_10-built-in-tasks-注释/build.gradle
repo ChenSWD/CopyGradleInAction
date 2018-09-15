@@ -1,3 +1,4 @@
+/**该脚本作用：将build生成的war文件备份一个zip包*/
 apply plugin: 'war'
 ext.versionFile = file('version.properties')
 
@@ -21,19 +22,38 @@ ProjectVersion readVersion() {
     new ProjectVersion(versionProps.major.toInteger(), versionProps.minor.toInteger(), versionProps.release.toBoolean())
 }
 
-gradle.taskGraph.whenReady { TaskExecutionGraph taskGraph ->
-    if (taskGraph.hasTask(release)) {
-        if (!version.release) {
-            version.release = true
-            ant.propertyfile(file: versionFile) {
-                entry(key: 'release', type: 'string', operation: '=', value: 'true')
-            }
+task makeReleaseVersion(group: 'versioning', description: 'Makes project a release version.') {
+    doLast {
+        version.release = true
+        ant.propertyfile(file: versionFile) {
+            entry(key: 'release', type: 'string', operation: '=', value: 'true')
         }
     }
 }
 
-task release << {
-    println 'Releasing the project...'
+task createDistribution(type: Zip, dependsOn: makeReleaseVersion) {
+    /**隐式的依赖war task，以war包作为输入，*/
+    from war.outputs.files
+    /**把所有源文件都放到zip文件的src目录下*/
+    from(sourceSets*.allSource) {
+        into 'src'
+    }
+    /**为zip文件添加版本号*/
+    from(rootDir) {
+        include versionFile.name
+    }
+}
+
+task backupReleaseDistribution(type: Copy) {
+    /**隐式的引用createDistribution的输出*/
+    from createDistribution.outputs.files
+    into "$buildDir/backup"
+}
+
+task release(dependsOn: backupReleaseDistribution) {
+    doLast {
+        logger.quiet 'Releasing the project...'
+    }
 }
 
 class ProjectVersion {
