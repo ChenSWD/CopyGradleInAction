@@ -1,0 +1,9 @@
+/**使用自定义的插件*/
+apply plugin: 'HelloChenPlugin'
+/**使用 HelloChen 扩展为 myTask 赋值*/
+HelloChen {
+    myId = 'my id'
+    myName = 'hello chen'
+    myGroup = 'my group'
+    myAddress = 'my address'
+}

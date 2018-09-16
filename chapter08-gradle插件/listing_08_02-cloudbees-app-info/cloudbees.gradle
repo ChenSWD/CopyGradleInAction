@@ -7,7 +7,6 @@ buildscript {
         classpath 'com.cloudbees:cloudbees-api-client:1.4.0'
     }
 }
-
 ext {
     apiUrl = 'https://api.cloudbees.com/api'
     apiFormat = 'xml'

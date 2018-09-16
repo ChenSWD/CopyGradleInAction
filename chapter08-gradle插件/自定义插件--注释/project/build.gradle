@@ -1,0 +1,20 @@
+allprojects {
+    group = 'com.chen.app'
+    version = '1.0.1'
+    buildscript {
+        repositories {
+            /**指定本地maven仓库*/
+            maven { url "file://$projectDir/../../repo" }
+            mavenCentral()
+        }
+
+        dependencies {
+            /**构建脚本并不知道外部插件的存在，除非将插件添加到 classpath*/
+            classpath 'com.chen.plugins:chen-plugin:1.0.0'
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+}

@@ -1,0 +1,27 @@
+apply plugin: 'groovy'
+/**应用maven插件来发布插件工件*/
+apply plugin: 'maven'
+
+/**定义工件的group、name 和 version*/
+group = 'com.chen.plugins'
+archivesBaseName = 'chen-plugin'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /**定义对groovy和gradle api的依赖*/
+    compile localGroovy()
+    compile gradleApi()
+}
+
+uploadArchives {
+    repositories {
+        /**配置Maven部署器，将工件上传到本地目录，这里是放到与该项目同级目录的repo目录下*/
+        mavenDeployer {
+            repository(url: "file://$projectDir/../repo")
+        }
+    }
+}
